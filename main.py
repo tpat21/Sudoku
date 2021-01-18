@@ -1,3 +1,6 @@
+import random
+
+
 def populateBoard():
     board = [
         [0,0,0,0,0,0,0,0,0],
@@ -11,8 +14,24 @@ def populateBoard():
         [0,0,0,0,0,0,0,0,0]
     ]
 
+    row=0
 
-    printBoard(board)
+    rowArry = []
+    colArray = []
+
+    while(row != 9):
+        randomNum = random.randint(1,9)
+
+        if randomNum in rowArry:
+            randomNum = random.randint(1,9)
+        else:
+            board[0][row] = randomNum
+            rowArry.append(randomNum)
+            row+=1
+
+
+
+
     return board
 
 
@@ -35,18 +54,13 @@ def printBoard(board):
     print('')
 
 
-def isUniqueHorizontal():
-    pass
 
-def isUniqueVertial():
-    pass
 
-def isUniqueBox():
-    pass
 
 
 def main():
-    populateBoard()
+    board = populateBoard()
+    printBoard(board)
 
 
 
