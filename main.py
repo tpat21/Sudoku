@@ -15,34 +15,36 @@ def populateBoard():
     ]
 
 
+    rowList = [1,2,3,4,5,6,7,8,9]
+    rowListLen = len(rowList)-1
 
-    # for i in range(len(board)):
-    #     row=0
-    #     rowArry = []
-    #     colArray = []
-    #     if True:
+    row=0
+    rowIt=0
+    column = 0
+    while(column !=len(board)):
+        while(rowIt !=len(board)):
+            randomNum = random.choice(rowList)
+            board[column][row] = randomNum
+            rowList.remove(randomNum)
+            row+=1
+
+
+            if not rowList:
+                rowList = [1,2,3,4,5,6,7,8,9]
+                row=0
+                rowIt += 1
+                column+=1
+
+    # for column in range(len(board)):
+    #     row = 0
+    #     if column==0 or column==1 or column==2:
     #         while(row != 9):
     #             randomNum = random.randint(1,9)
-    #
-    #             if randomNum in rowArry:
-    #                 randomNum = random.randint(1,9)
-    #             else:
-    #                 board[i][row] = randomNum
-    #                 rowArry.append(randomNum)
-    #                 row+=1
-
-
-    for column in range(len(board)):
-        row = 0
-        if column==0 or column==1 or column==2:
-            while(row != 9):
-                randomNum = random.randint(1,9)
-                if isUniqueRow(randomNum,board,column) and \
-                   isUniqueCol(randomNum,board,column,row) :
-                   # and \
-                   # isUniqueBox(randomNum,board,column,row):
-                    board[column][row] = randomNum
-                    row +=1
+    #             if isUniqueRow(randomNum,board,column) and isUniqueCol(randomNum,board,column,row) :
+    #                # and \
+    #                # isUniqueBox(randomNum,board,column,row):
+    #                 board[column][row] = randomNum
+    #                 row +=1
 
 
 
@@ -117,5 +119,4 @@ def main():
     printBoard(board)
 
 
-for i in range(5):
-    main()
+main()
