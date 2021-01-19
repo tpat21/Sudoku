@@ -1,55 +1,32 @@
 import random
 
 
-def populateBoard():
-    board = [
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0]
-    ]
+def fillBoard(board):
 
+    emptyBox = findEmpty(board)
 
-    rowList = [1,2,3,4,5,6,7,8,9]
-    rowListLen = len(rowList)-1
+    if not emptyBox:
+        return True
+    else:
+        row,column = emptyBox
 
-    row=0
-    rowIt=0
-    column = 0
-    while(column !=len(board)):
-        while(rowIt !=len(board)):
-            randomNum = random.choice(rowList)
-            board[column][row] = randomNum
-            rowList.remove(randomNum)
-            row+=1
+    possibleNumbers = [1,2,3,4,5,6,7,8,9]
+    random.shuffle(possibleNumbers)
 
+    for i in possibleNumbers:
+        if isUnique(board, i,( row, column)):
+            board[row][column] = i
 
-            if not rowList:
-                rowList = [1,2,3,4,5,6,7,8,9]
-                row=0
-                rowIt += 1
-                column+=1
+            if fillBoard(board):
+                return True
 
-    # for column in range(len(board)):
-    #     row = 0
-    #     if column==0 or column==1 or column==2:
-    #         while(row != 9):
-    #             randomNum = random.randint(1,9)
-    #             if isUniqueRow(randomNum,board,column) and isUniqueCol(randomNum,board,column,row) :
-    #                # and \
-    #                # isUniqueBox(randomNum,board,column,row):
-    #                 board[column][row] = randomNum
-    #                 row +=1
+            board[row][column] = 0
+
+    return False
 
 
 
 
-    return board
 
 
 def printBoard(board):
@@ -74,48 +51,68 @@ def printBoard(board):
 
 
 
-def isUniqueRow(number,board,column):
-    if number != board[column][0] and \
-       number != board[column][1] and \
-       number != board[column][2] and \
-       number != board[column][3] and \
-       number != board[column][4] and \
-       number != board[column][5] and \
-       number != board[column][6] and \
-       number != board[column][7]:
-        return True
 
 
 
 
 
-def isUniqueCol(number,board,column,row):
-    if column ==0:
-        return True
-    elif column==1:
-        return number != (board[column-1][row])
-    elif column==2:
-        return \
-            number!=(board[column-1][row]) and \
-            number!=(board[column-2][row])
+def isUnique(board,number,position):
+
+    # Check Row
+    for i in range(len(board[0])):
+        if board[position[0]][i] == number and position[1] !=i:
+            return False
 
 
+    # Check Column
+    for i in range(len(board)):
+        if board[i][position[1]] == number and position[0] != i:
+            return False
 
 
+    # Check Box
+    xBox = position[1] // 3
+    yBox = position[0] // 3
 
+    for i in range(yBox*3, yBox*3+3):
+        for j in range(xBox*3, xBox*3+3):
+            if board[i][j] == number and (i,j) !=position:
+                return False
 
-def isUniqueBox(number,board,column,row):
-    box1 = [[0,1,2],[0,1,2]]
-    box2 = [[0,1,2],[3,4,5]]
-    box3 = [[0,1,2],[6,7,8]]
 
     return True
 
 
 
 
+
+
+
+
+def findEmpty(board):
+    for row in range(len(board)):
+        for column in range(len(board)):
+            if board[row][column] == 0:
+                return (row,column)
+
+    return None
+
+
 def main():
-    board = populateBoard()
+    board = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ]
+
+
+    fillBoard(board)
     printBoard(board)
 
 
